@@ -16,14 +16,11 @@ jobs:
     outputs:
       matrix: ${{ steps.gen-matrix.outputs.matrix }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-
       - name: Generate Matrix
+        uses: clevyr/node-matrix-action@v1
         id: gen-matrix
-        run: |
-          printf '::set-output name=matrix::%s' \
-            "$(python3 ./scripts/versions.py "$image")"
+        with:
+          repo: ${{ env.image }}
 
   build:
     name: Build Node ${{ matrix.node_version }} Image
